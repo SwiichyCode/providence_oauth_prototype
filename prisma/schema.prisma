@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modèle pour les candidatures de recrutement
+model Recruitment {
+  id                String   @id @default(cuid())
+  mainName          String
+  realmFaction      String
+  btag              String
+  classSpec         String
+  ilvl              String
+  rerolls           String?
+  raidProgress      String?
+  pastExp           String?
+  highestKey        String?
+  links             String?
+  oldGuilds         String?
+  goals             String?
+  expectations      String?
+  contribution      String?
+  availability      String?
+  regularity        String?
+  hasDiscord        String?
+  hasMic            String?
+  languages         String?
+  commsStyle        String?
+  about             String?
+  finalWord         String?
+  annexes           String?
+  charterAccepted   Boolean
+  rgpdConsent       Boolean
+  
+  // Métadonnées
+  status            RecruitmentStatus @default(PENDING)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relation avec l'utilisateur (via Clerk)
+  userId            String?
+  
+  @@map("recruitments")
+}
+
+// Statuts possibles pour une candidature
+enum RecruitmentStatus {
+  PENDING
+  REVIEWED
+  ACCEPTED
+  REJECTED
+  ON_HOLD
+}
